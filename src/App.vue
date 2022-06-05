@@ -1,12 +1,35 @@
 <template>
   <div id="app">
     <nav>
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+      <router-link to="/" @mouseover.native="toword()">单词</router-link>
+      |
+      <router-link to="/sentence" @mouseover.native="tosen()">句子</router-link>
     </nav>
-    <router-view/>
+
+    <router-view />
   </div>
 </template>
+
+
+
+<script>
+export default {
+  name: "app",
+  data() {
+    return {};
+  },
+  methods: {
+    tosen() {
+      if (this.$route.path !== "/sentence") this.$router.push("/sentence");
+    },
+    toword() {
+      if (this.$route.path !== "/") this.$router.push("/");
+    },
+  },
+  watch: {},
+};
+</script>
+
 
 <style lang="scss">
 #app {
@@ -23,7 +46,10 @@ nav {
   a {
     font-weight: bold;
     color: #2c3e50;
-
+    text-decoration: none;
+    &:hover {
+      background-color: blue;
+    }
     &.router-link-exact-active {
       color: #42b983;
     }
