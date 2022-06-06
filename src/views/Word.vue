@@ -1,34 +1,43 @@
 <template>
   <div>
-    <!-- 搜索 -->
-    <el-card class="box-card">
-      <!-- 查询 -->
+    <!-- 搜索开始 -->
+    <div class="inputWrap">
       <el-input
         v-model="inputValue"
         autofocus
         @keyup.enter.native="pushWord()"
         ref="input"
+        placeholder="各位前端靓仔靓女 您来查词了呀"
       >
-        <el-button slot="append" icon="el-icon-search"></el-button>
       </el-input>
-    </el-card>
-    <!-- 单词行 -->
-    <div v-for="(item, index) in words" :key="index" class="item">
-      <el-button type="primary" @click="speak(item)" v-if="item.length < 30">
-        {{ item }}
-      </el-button>
-      <el-row v-else>
-        <div @click="speak(item)">{{ item }}</div></el-row
-      >
     </div>
-    <!-- 播放进度 -->
+    <!-- 搜索结束 -->
+    <el-card class="box-card">
+      <!-- 单词行 -->
+      <div>
+        <el-button
+          type="primary"
+          @click="speak(item)"
+          v-for="(item, index) in words"
+          :key="index"
+          class="item"
+        >
+          {{ item }}
+        </el-button>
+      </div>
+      <!-- 播放进度 -->
 
-    <el-progress
-      :show-text="false"
-      :stroke-width="26"
-      :percentage="parseFloat(percentage)"
-    ></el-progress>
+      <div class="block">
+        <span class="demonstration">默认</span>
+        <el-slider v-model="percentageNum"></el-slider>
+      </div>
 
+      <el-progress
+        :show-text="false"
+        :stroke-width="26"
+        :percentage="percentageNum"
+      ></el-progress>
+    </el-card>
     <audio controls :src="src" ref="audio"></audio>
   </div>
 </template>
@@ -62,7 +71,7 @@ export default {
         "www:world wide web",
         "var:variable",
         "const:constant",
-        "switc",
+        "switch",
         "reg:regular expression",
         "promise",
       ],
@@ -72,6 +81,17 @@ export default {
       percentage: 0,
     };
   },
+  computed: {
+    percentageNum: {
+      get() {
+        return Math.floor(this.percentage);
+      },
+      set(val) {
+        return Math.floor(val);
+      },
+    },
+  },
+
   methods: {
     // 发音
     speak(item) {
@@ -117,55 +137,13 @@ export default {
 
 
 <style lang="scss">
-.item {
-  margin-bottom: 18px;
-}
-
-.clearfix:before,
-.clearfix:after {
-  display: table;
-  content: "";
-}
-.clearfix:after {
-  clear: both;
-}
-
 .box-card {
   width: 888px;
-  margin: auto;
-}
-.el-input {
-  margin-bottom: 10px;
-  width: 600px;
+  margin: 0 auto;
 }
 .el-button {
-  margin: 5px;
+  margin: 5px !important;
   display: inline-block;
-}
-.el-row {
-  margin: 5px;
-  background-color: cornflowerblue;
-  color: white;
-  padding: 10px;
-  text-indent: 2rem;
-  border-radius: 10px;
-}
-.el-row:hover {
-  animation: big 2s linear infinite alternate;
-}
-@keyframes big {
-  0% {
-    transform: scale(1); /*开始为原始大小*/
-  }
-  25% {
-    transform: scale(1.01); /*放大1.1倍*/
-  }
-  50% {
-    transform: scale(1);
-  }
-  75% {
-    transform: scale(1.01);
-  }
 }
 
 .el-progress {
@@ -174,5 +152,13 @@ export default {
   width: 400px;
   height: 5px;
   margin: 10px auto;
+}
+
+.inputWrap {
+  width: 888px;
+  margin: 0 auto 10px auto;
+}
+.item {
+  display: flex;
 }
 </style>

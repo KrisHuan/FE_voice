@@ -1,16 +1,13 @@
+
 <template>
   <div id="app">
-    <nav>
+    <div class="nav">
       <router-link to="/" @mouseover.native="toword()">单词</router-link>
-      |
       <router-link to="/sentence" @mouseover.native="tosen()">句子</router-link>
-    </nav>
-
+    </div>
     <router-view />
   </div>
 </template>
-
-
 
 <script>
 export default {
@@ -33,25 +30,33 @@ export default {
 
 <style lang="scss">
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+  width: 1344px;
 }
 
-nav {
+.nav {
+  width: 888px;
+  margin: 0 auto;
   padding: 30px;
 
   a {
+    font-size: 30px;
+    margin-right: 10px;
     font-weight: bold;
     color: #2c3e50;
     text-decoration: none;
+    display: inline-block;
+    padding: 5px;
+    border-radius: 5px;
+    width: 100px;
+    height: auto;
+    text-align: center;
+
     &:hover {
       background-color: blue;
     }
     &.router-link-exact-active {
-      color: #42b983;
+      color: white;
+      background-color: cornflowerblue;
     }
   }
 }

@@ -1,27 +1,30 @@
 <template>
   <div>
-    <!-- 搜索 -->
-    <el-card class="box-card">
-      <!-- 查询 -->
+    <!-- 搜索开始 -->
+    <div class="inputWrap">
       <el-input
         v-model="inputValue"
         autofocus
         @keyup.enter.native="pushWord()"
         ref="input"
+        placeholder="请输入又香又长的句子"
       >
-        <el-button slot="append" icon="el-icon-search"></el-button>
       </el-input>
-    </el-card>
-
-    <!-- 单词行 -->
-    <div v-for="(item, index) in words" :key="index" class="item">
-      <el-button type="primary" @click="speak(item)" v-if="item.length < 30">
-        {{ item }}
-      </el-button>
-      <el-row v-else>
-        <div @click="speak(item)">{{ item }}</div></el-row
-      >
     </div>
+    <!-- 搜索结束 -->
+
+    <el-card>
+      <!-- 单词行 -->
+      <div
+        class="box-card"
+        v-for="(item, index) in words"
+        :key="index"
+        @click="speak(item)"
+        @mouseenter.native="showDia()"
+      >
+        {{ item }}
+      </div>
+    </el-card>
     <!-- 播放进度 -->
 
     <el-progress
@@ -48,6 +51,7 @@ export default {
       src: "",
       inputValue: "",
       percentage: 0,
+      dialogVisible: false,
     };
   },
   methods: {
@@ -83,48 +87,32 @@ export default {
         }
       });
     },
+    // 展示对话框
+    showDia() {
+      this.dialogVisible = true;
+    },
+    hideDia() {
+      this.dialogVisible = false;
+    },
   },
 };
 </script>
 
 
-<style lang="scss">
-.item {
-  margin-bottom: 18px;
-}
-
-.clearfix:before,
-.clearfix:after {
-  display: table;
-  content: "";
-}
-.clearfix:after {
-  clear: both;
-}
-
+<style lang="scss" scoped>
 .box-card {
+  width: 300px;
+  border: 2px solid red;
+}
+.el-card {
+  height: 500px;
+  flex-wrap: wrap;
   width: 888px;
   margin: auto;
+  display: flex;
+  justify-content: space-around;
 }
-.el-input {
-  margin-bottom: 10px;
-  width: 600px;
-}
-.el-button {
-  margin: 5px;
-  display: inline-block;
-}
-.el-row {
-  margin: 5px;
-  background-color: cornflowerblue;
-  color: white;
-  padding: 10px;
-  text-indent: 2rem;
-  border-radius: 10px;
-}
-.el-row:hover {
-  animation: big 2s linear infinite alternate;
-}
+
 @keyframes big {
   0% {
     transform: scale(1); /*开始为原始大小*/
