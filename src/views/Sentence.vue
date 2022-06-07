@@ -12,52 +12,58 @@
       </el-input>
     </div>
     <!-- 搜索结束 -->
-
-    <el-card>
+    <el-card class="box-card">
       <!-- 单词行 -->
-      <div
-        class="box-card"
-        v-for="(item, index) in words"
-        :key="index"
-        @click="speak(item)"
-        @mouseenter.native="showDia()"
-      >
-        {{ item }}
-      </div>
+        <div 
+          @click="speak(item)"
+          v-for="(item, index) in words"
+          :key="index"
+          class="item"
+        >
+          {{ item }}
+        </div>
+
     </el-card>
     <!-- 播放进度 -->
-
     <el-progress
       :show-text="false"
       :stroke-width="26"
-      :percentage="parseFloat(percentage)"
+      :percentage="percentageNum"
     ></el-progress>
-
     <audio controls :src="src" ref="audio"></audio>
   </div>
 </template>
 
 <script>
 export default {
-  name: "Word",
-  components: {},
   data() {
     return {
       words: [
-        "Vue (pronounced /vjuː/, like view) is a JavaScript framework for building user interfaces. It builds on top of standard HTML, CSS and JavaScript, and provides a declarative and component-based programming model that helps you efficiently develop user interfaces, be it simple or complex.",
-        "When building frontend applications, we often have the need to reuse logic for common tasks. For example, we may need to format dates in many places, so we extract a reusable function for that. This formatter function encapsulates stateless logic: it takes some input and immediately returns expected output. There are many libraries out there for reusing stateless logic - for example lodash and date-fns, which you may have heard of.",
+        `Handle Events We can use the v-on directive, which we typically shorten to the @ symbol, to listen to DOM events and run some JavaScript when they're triggered. The usage would be v-on:click="handler" or with the shortcut, @click="handler".`,
+        `Handle Events We can use the v-on directive, which we typically shorten to the @ symbol, to listen to DOM events and run some JavaScript when they're triggered. The usage would be v-on:click="handler" or with the shortcut, @click="handler".`,
       ],
-
-      src: "",
-      inputValue: "",
+      src: '',
+      inputValue: '',
       percentage: 0,
-      dialogVisible: false,
     };
   },
+  computed: {
+    percentageNum: {
+      get() {
+        return Math.floor(this.percentage);
+      },
+      set(val) {
+        return Math.floor(val);
+      },
+    },
+  },
+
   methods: {
     // 发音
     speak(item) {
       this.$refs.audio.load();
+      
+      console.log(item);
       this.src = `http://dict.youdao.com/dictvoice?audio=${item}`;
       this.$nextTick(() => {
         this.$refs.audio.play();
@@ -68,13 +74,13 @@ export default {
     pushWord() {
       this.words.unshift(this.inputValue);
       this.speak(this.inputValue);
-      this.inputValue = "";
+      this.inputValue = '';
     },
 
     // 进度条
     playPro() {
       let music = this.$refs.audio;
-      music.addEventListener("timeupdate", () => {
+      music.addEventListener('timeupdate', () => {
         const duration = music.duration; // 获得音频时长
         const currentTime = music.currentTime; // 获得已播放的音频时长
         if (duration > 0 && duration > 0) {
@@ -87,46 +93,29 @@ export default {
         }
       });
     },
-    // 展示对话框
-    showDia() {
-      this.dialogVisible = true;
-    },
-    hideDia() {
-      this.dialogVisible = false;
-    },
   },
 };
 </script>
 
-
 <style lang="scss" scoped>
 .box-card {
-  width: 300px;
-  border: 2px solid red;
-}
-.el-card {
-  height: 500px;
-  flex-wrap: wrap;
   width: 888px;
-  margin: auto;
-  display: flex;
-  justify-content: space-around;
+  height: 550px;
+  overflow-y: scroll;
+  .item{
+    width: 400px;
+    height: 200px;
+    box-sizing: border-box;
+    float: left;
+    background-color: #409eff;
+    color:white;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 5px;
+  }
+  margin: 0 auto;
 }
 
-@keyframes big {
-  0% {
-    transform: scale(1); /*开始为原始大小*/
-  }
-  25% {
-    transform: scale(1.01); /*放大1.1倍*/
-  }
-  50% {
-    transform: scale(1);
-  }
-  75% {
-    transform: scale(1.01);
-  }
-}
 
 .el-progress {
   position: relative;
@@ -134,5 +123,13 @@ export default {
   width: 400px;
   height: 5px;
   margin: 10px auto;
+}
+
+.inputWrap {
+  width: 888px;
+  margin: 0 auto 10px auto;
+}
+audio {
+  display: none;
 }
 </style>

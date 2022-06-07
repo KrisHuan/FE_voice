@@ -12,32 +12,22 @@
       </el-input>
     </div>
     <!-- 搜索结束 -->
+    <!-- 单词行 -->
     <el-card class="box-card">
-      <!-- 单词行 -->
-      <div>
-        <el-button
-          type="primary"
-          @click="speak(item)"
-          v-for="(item, index) in words"
-          :key="index"
-          class="item"
-        >
-          {{ item }}
-        </el-button>
+      <div class="wordArea">
+        <div class="buttonWrap" v-for="(item, index) in words" :key="index">
+          <el-button type="primary" @click="speak(item)">
+            {{ item }}
+          </el-button>
+        </div>
       </div>
-      <!-- 播放进度 -->
-
-      <div class="block">
-        <span class="demonstration">默认</span>
-        <el-slider v-model="percentageNum"></el-slider>
-      </div>
-
-      <el-progress
-        :show-text="false"
-        :stroke-width="26"
-        :percentage="percentageNum"
-      ></el-progress>
     </el-card>
+    <!-- 播放进度 -->
+    <el-progress
+      :show-text="false"
+      :stroke-width="26"
+      :percentage="percentageNum"
+    ></el-progress>
     <audio controls :src="src" ref="audio"></audio>
   </div>
 </template>
@@ -47,33 +37,78 @@ export default {
   data() {
     return {
       words: [
-        "transition",
-        "hello",
-        "padding",
+        "abbreviation",
+        "bold",
+        "emphasized",
+        "italic",
+        "section",
+        "preview",
+        "superscripted",
+        "subscripted",
+        "underline",
+        "canvas",
+        "caption",
+        "alter",
+        "span",
         "gutter",
         "span",
         "hover",
         "plugin",
         "browser",
         "module",
-        "pull request",
         "config",
         "issue",
-        "compatible",
-        "url:uniform resource locator",
-        "aside",
-        "branch",
-        "dns:domain name system",
-        "link",
-        "charset",
-        "com:company",
-        "gov:goverment",
-        "www:world wide web",
-        "var:variable",
-        "const:constant",
-        "switch",
-        "reg:regular expression",
-        "promise",
+        "-y",
+        "cd:change directory",
+        "dir:directory",
+        "mkdir:make directory",
+        "rmdir：remove directory",
+        "case sensitive",
+        "toggle",
+        "infinite",
+        "reverse",
+        "radial",
+        "radius",
+        "exact",
+        "/ ",
+        "-",
+        "transform:translateX",
+        "fetch",
+        "chunk",
+        "cls",
+        "chalk",
+        "scope",
+        "visible",
+        "vertical ",
+        "ECMA：European computer manufacturer association",
+
+        // "transition",
+        // "hello",
+        // "padding",
+        // "gutter",
+        // "span",
+        // "hover",
+        // "plugin",
+        // "browser",
+        // "module",
+        // "pull request",
+        // "config",
+        // "issue",
+        // "compatible",
+        // "url:uniform resource locator",
+        // "aside",
+        // "branch",
+        // "dns:domain name system",
+        // "link",
+        // "charset",
+        // "com:company",
+        // "gov:goverment",
+        // "www:world wide web",
+        // "var:variable",
+        // "const:constant",
+        // "switch",
+        // "reg:regular expression",
+        // "promise",
       ],
 
       src: "",
@@ -135,15 +170,22 @@ export default {
 };
 </script>
 
-
-<style lang="scss">
+<style lang="scss" scoped>
 .box-card {
+  height: 550px;
   width: 888px;
   margin: 0 auto;
 }
-.el-button {
+
+.wordArea {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.buttonWrap {
+  width: auto;
+  height: auto;
   margin: 5px !important;
-  display: inline-block;
 }
 
 .el-progress {
@@ -158,7 +200,7 @@ export default {
   width: 888px;
   margin: 0 auto 10px auto;
 }
-.item {
-  display: flex;
+audio {
+  display: none;
 }
 </style>
